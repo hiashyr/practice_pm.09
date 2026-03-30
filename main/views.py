@@ -134,7 +134,7 @@ def change_application_status(request, application_id):
         if new_status in dict(Application.STATUS_CHOICES):
             application.status = new_status
             application.save()
-            messages.success(request, f'Статус заявки #{application.id} изменен на "{application.get_status_display}"')
+            messages.success(request, f'Статус заявки #{application.id} изменен на "{application.get_status_display()}"')
         else:
             messages.error(request, 'Неверный статус')
     

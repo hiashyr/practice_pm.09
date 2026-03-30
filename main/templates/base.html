@@ -54,6 +54,16 @@
 
     {# Основной контент страницы #}
     <main class="container mt-4 flex-grow-1">
+        {# Блок для отображения сообщений Django #}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
         {#   Блок для основного контента страниц-наследников Сюда подставляется уникальный контент каждой страницы#}
         {% block content %}
         {% endblock %}

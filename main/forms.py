@@ -1,6 +1,8 @@
 # Импорт модулей Django для работы с формами
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
+from datetime import date
 # Импорт моделей приложения
 from .models import CustomUser, Application, Review
 # Импорт модуля для работы с регулярными выражениями
@@ -200,6 +202,13 @@ class ApplicationForm(forms.ModelForm):
         self.fields['desired_start_date'].help_text = 'Формат: ДД.ММ.ГГГГ'
         # Добавляем подсказку для поля курса
         self.fields['course'].help_text = 'Введите название курса'
+
+    # Валидация поля desired_start_date - дата должна быть в будущем
+    def clean_desired_start_date(self):
+        desired_start_date = self.cleaned_data.get('desired_start_date')
+        if desired_start_date and desired_start_date <= date.today():
+            raise ValidationError('Желаемая дата начала обучения должна быть в будущем')
+        return desired_start_date
 
     class Meta:
         model = Application

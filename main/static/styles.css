@@ -1,0 +1,714 @@
+/* ===== ЦВЕТОВАЯ ПАЛИТРА ===== */
+:root {
+    /* Основные цвета */
+    --primary-blue: #2c5aa0 !important;
+    --primary-dark: #1e3a5f !important;
+    --accent-green: #28a745 !important;
+    --accent-orange: #fd7e14 !important;
+    
+    /* Нейтральные цвета */
+    --light-gray: #f8f9fa !important;
+    --medium-gray: #e9ecef !important;
+    --dark-gray: #6c757d !important;
+    --text-dark: #343a40 !important;
+    
+    /* Статусы */
+    --status-new: #28a745 !important;
+    --status-progress: #ffc107 !important;
+    --status-completed: #6c757d !important;
+    
+    /* Цвета для форм авторизации */
+    --form-bg: #ffffff !important;
+    --form-border: rgba(255, 255, 255, 0.2) !important;
+    --form-shadow: rgba(0, 0, 0, 0.1) !important;
+    --form-title: #2c5aa0 !important;
+    --form-text: #333333 !important;
+    --form-input-bg: #f8f9fa !important;
+    --form-input-border: #dee2e6 !important;
+    --form-input-focus: #2c5aa0 !important;
+    --form-btn-primary: #2c5aa0 !important;
+    --form-btn-hover: #1e3a5f !important;
+    --form-link: #2c5aa0 !important;
+    --form-link-hover: #1e3a5f !important;
+}
+
+/* ===== ШРИФТЫ ===== */
+@font-face {
+    font-family: NotoSans;
+    src: url(./fonts/NotoSans.ttf);
+}
+
+@font-face {
+    font-family: PTSerif;
+    src: url(./fonts/PTSerif.ttf);
+}
+
+/* ===== ОБЩИЕ СТИЛИ ===== */
+body {
+    background-color: var(--light-gray) !important;
+    color: var(--text-dark) !important;
+    font-family: PTSerif, sans-serif !important;
+}
+
+/* ===== НАВИГАЦИЯ ===== */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    font-family: NotoSans;
+}
+
+.navbar-brand {
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.logo-image {
+    width: 40px !important;
+    height: 40px !important;
+    background: linear-gradient(135deg, var(--primary-blue), var(--form-btn-hover)) !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    font-size: 40px !important;
+}
+
+.logo-image::after {
+    content: 'LOGO' !important;
+}
+
+/* Адаптивность для логотипа */
+@media (max-width: 768px) {
+    .navbar-brand {
+        gap: 10px !important;
+        font-size: 1.3rem !important;
+    }
+    
+    .logo-image {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 0.7rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-brand {
+        gap: 8px !important;
+        font-size: 1.2rem !important;
+    }
+    
+    .logo-image {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.6rem !important;
+    }
+}
+
+.nav-link {
+    font-weight: 500 !important;
+    transition: color 0.3s ease !important;
+}
+
+.nav-link:hover {
+    color: var(--accent-orange) !important;
+}
+
+/* ===== КНОПКИ ===== */
+.btn-primary {
+    background-color: var(--primary-blue) !important;
+    border-color: var(--primary-blue) !important;
+    font-weight: 600 !important;
+    font-family: NotoSans !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(44, 90, 160, 0.3) !important;
+}
+
+.btn-success {
+    background-color: var(--accent-green) !important;
+    border-color: var(--accent-green) !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary-blue) !important;
+    border-color: var(--primary-blue) !important;
+    font-family: NotoSans !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-blue) !important;
+    border-color: var(--primary-blue) !important;
+}
+
+/* ===== КАРТОЧКИ ===== */
+.card {
+    border: none !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15) !important;
+}
+
+/* ===== ФОРМЫ ===== */
+.form-container {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1) !important;
+    border: 1px solid var(--medium-gray) !important;
+}
+
+/* Специальные стили для форм авторизации */
+.auth-form-container {
+    background: linear-gradient(135deg, var(--form-bg) 0%, #ffffff 100%) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 2.5rem !important;
+    max-width: 500px !important;
+    margin: 3rem auto !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.auth-form-container::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, var(--form-btn-primary), var(--form-btn-hover)) !important;
+}
+
+.auth-form-title {
+    color: var(--form-title) !important;
+    font-weight: 700 !important;
+    font-size: 2rem !important;
+    margin-bottom: 1.5rem !important;
+    text-align: center !important;
+    position: relative !important;
+}
+
+.auth-form-title::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 50px !important;
+    height: 3px !important;
+    background: var(--form-btn-primary) !important;
+    border-radius: 2px !important;
+}
+
+.auth-form-text {
+    color: var(--form-text) !important;
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+    font-size: 1rem !important;
+}
+
+.form-control {
+    border: 2px solid var(--form-input-border) !important;
+    border-radius: 10px !important;
+    padding: 14px 16px !important;
+    transition: all 0.3s ease !important;
+    background-color: var(--form-input-bg) !important;
+    font-size: 1rem !important;
+}
+
+.form-control:focus {
+    border-color: var(--form-input-focus) !important;
+    box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.15) !important;
+    background-color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
+.form-label {
+    font-weight: 600 !important;
+    color: var(--form-text) !important;
+    margin-bottom: 8px !important;
+}
+
+.btn-primary {
+    background-color: var(--form-btn-primary) !important;
+    border-color: var(--form-btn-primary) !important;
+    border-radius: 10px !important;
+    padding: 14px 24px !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--form-btn-hover) !important;
+    border-color: var(--form-btn-hover) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(44, 90, 160, 0.4) !important;
+}
+
+.btn-outline-primary {
+    color: var(--form-link) !important;
+    border-color: var(--form-link) !important;
+    border-radius: 10px !important;
+    padding: 12px 20px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--form-link) !important;
+    border-color: var(--form-link) !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+}
+
+.auth-link {
+    color: var(--form-link) !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+}
+
+.auth-link:hover {
+    color: var(--form-link-hover) !important;
+    text-decoration: underline !important;
+}
+
+.alert {
+    border-radius: 10px !important;
+    border: none !important;
+    font-weight: 500 !important;
+}
+
+/* Адаптивность для форм авторизации */
+@media (max-width: 768px) {
+    .auth-form-container {
+        margin: 2rem 1rem !important;
+        padding: 2rem 1.5rem !important;
+    }
+    
+    .auth-form-title {
+        font-size: 1.75rem !important;
+    }
+    
+    .btn {
+        width: 100% !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-form-container {
+        padding: 1.5rem 1rem !important;
+        margin: 1.5rem 0.5rem !important;
+    }
+    
+    .auth-form-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .form-control {
+        font-size: 0.95rem !important;
+        padding: 12px 14px !important;
+    }
+}
+
+/* ===== СТАТУСЫ ЗАЯВОК ===== */
+.application-new {
+    border-left: 4px solid var(--status-new) !important;
+}
+
+.application-in-progress {
+    border-left: 4px solid var(--status-progress) !important;
+}
+
+.application-completed {
+    border-left: 4px solid var(--status-completed) !important;
+}
+
+.badge.bg-success { 
+    background-color: var(--status-new) !important; 
+}
+
+.badge.bg-warning { 
+    background-color: var(--status-progress) !important; 
+}
+
+.badge.bg-secondary { 
+    background-color: var(--status-completed) !important; 
+}
+
+/* ===== ФУТЕР ===== */
+.footer {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%) !important;
+    color: white !important;
+    margin-top: 3rem !important;
+    padding: 2rem 0 !important;
+    position: relative !important;
+}
+
+.footer-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 2rem !important;
+}
+
+.footer-logo {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+}
+
+.footer-nav {
+    text-align: center !important;
+}
+
+.footer-links {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 2rem !important;
+}
+
+.footer-links li {
+    margin: 0 !important;
+}
+
+.footer-links a {
+    color: #e9ecef !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease !important;
+    font-weight: 500 !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+}
+
+.footer-links a:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    text-decoration: none !important;
+}
+
+.footer-bottom {
+    color: #adb5bd !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+/* Адаптивность для футера */
+@media (max-width: 768px) {
+    .footer-content {
+        padding: 0 1.5rem !important;
+    }
+    
+    .footer-logo {
+        font-size: 1.25rem !important;
+        text-align: center !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .footer-nav {
+        text-align: center !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .footer-links {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        align-items: center !important;
+    }
+    
+    .footer-bottom {
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 1.5rem 0 !important;
+    }
+    
+    .footer-content {
+        padding: 0 1rem !important;
+    }
+    
+    .footer-logo {
+        font-size: 1.1rem !important;
+    }
+    
+    .footer-links {
+        gap: 0.25rem !important;
+    }
+}
+
+/* ===== УТИЛИТЫ ===== */
+.text-primary { 
+    color: var(--primary-blue) !important; 
+}
+
+.bg-primary { 
+    background-color: var(--primary-blue) !important; 
+}
+
+.border-primary { 
+    border-color: var(--primary-blue) !important; 
+}
+
+/* Алерты */
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.1) !important;
+    border-color: var(--accent-green) !important;
+    color: #155724 !important;
+}
+
+.alert-warning {
+    background-color: rgba(253, 126, 20, 0.1) !important;
+    border-color: var(--accent-orange) !important;
+    color: #856404 !important;
+}
+
+/* ===== СЛАЙДЕР ===== */
+.carousel {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    position: relative !important;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.carousel-item {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    height: 500px !important;
+    position: relative !important;
+}
+
+.carousel-item img {
+    height: 100% !important;
+    object-fit: cover !important;
+    width: 100% !important;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.carousel-item:hover img {
+    transform: scale(1.05) !important;
+}
+
+/* КНОПКИ ПЕРЕКЛЮЧЕНИЯ СЛАЙДОВ */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px !important;
+    height: 50px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 50% !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin: 0 20px !important;
+    opacity: 1 !important;
+    transition: all 0.3s ease !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background: white !important;
+    transform: translateY(-50%) scale(1.1) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+}
+
+.carousel-control-prev {
+    left: 20px !important;
+}
+
+.carousel-control-next {
+    right: 20px !important;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 25px !important;
+    height: 25px !important;
+    background-size: 25px 25px !important;
+    filter: brightness(0) !important;
+}
+
+/* Индикаторы */
+.carousel-indicators {
+    bottom: 30px !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 10px !important;
+}
+
+.carousel-indicators button {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255,255,255,0.5) !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.carousel-indicators button.active {
+    background-color: white !important;
+    transform: scale(1.2) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}
+
+/* Текст на слайдах */
+.carousel-caption {
+    position: absolute !important;
+    bottom: 40px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    text-align: center !important;
+    background: rgba(0,0,0,0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 25px !important;
+    border-radius: 12px !important;
+    max-width: 600px !important;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(20px) !important;
+}
+
+.carousel-item.active .carousel-caption {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+.carousel-caption h5 {
+    color: white !important;
+    font-weight: 700 !important;
+    margin-bottom: 10px !important;
+    font-size: 1.5rem !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
+}
+
+.carousel-caption p {
+    color: #f8f9fa !important;
+    margin-bottom: 0 !important;
+    font-size: 1.1rem !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* ===== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ ===== */
+@media (max-width: 390px) {
+    .container {
+        padding: 0 15px !important;
+    }
+    
+    .form-container {
+        padding: 1.5rem !important;
+        margin: 0 10px !important;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem !important;
+    }
+    
+    .btn {
+        width: 100% !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* Адаптивность слайдера для мобильных */
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 350px !important;
+    }
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 40px !important;
+        height: 40px !important;
+        margin: 0 15px !important;
+    }
+    
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 16px !important;
+        height: 16px !important;
+        background-size: 16px 16px !important;
+    }
+    
+    .carousel-caption {
+        bottom: 20px !important;
+        padding: 20px !important;
+        max-width: 90% !important;
+    }
+    
+    .carousel-caption h5 {
+        font-size: 1.2rem !important;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-item {
+        height: 300px !important;
+    }
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 35px !important;
+        height: 35px !important;
+        margin: 0 10px !important;
+    }
+    
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 14px !important;
+        height: 14px !important;
+        background-size: 14px 14px !important;
+    }
+    
+    .carousel-caption {
+        bottom: 15px !important;
+        padding: 15px !important;
+    }
+    
+    .carousel-caption h5 {
+        font-size: 1.1rem !important;
+    }
+    
+    .carousel-caption p {
+        font-size: 0.9rem !important;
+    }
+    
+    .carousel-indicators button {
+        width: 10px !important;
+        height: 10px !important;
+        margin: 0 4px !important;
+    }
+}

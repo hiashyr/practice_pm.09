@@ -1,0 +1,85 @@
+{# Загрузка статических файлов (CSS, JS, изображения) #}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {# Базовые мета-теги #}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {# Блоки для динамического контента страниц:- title: Заголовок страницы в браузере - description: SEO описание страницы - keywords: Ключевые слова для поисковой оптимизации #}
+    <title>{% block title %}Корочки.есть{% endblock %}</title>
+    <meta name="description" content="{% block description %}Онлайн курсы дополнительного профессионального образования{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}курсы, обучение, образование{% endblock %}">
+    
+    {# Подключение Bootstrap CSS фреймворка #}
+    <link href="{% static "bootstrap.min.css" %}" rel="stylesheet">
+    {# Подключение кастомных стилей проекта #}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    {# Навигационная панель сайта #}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            {# Логотип и название сайта с ссылкой на главную страницу #}
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static "/images/logo.png" %}" alt="Логотип" class="logo-image">
+                Корочки.есть
+            </a>
+            
+            {# Навигационное меню #}
+            <div class="navbar-nav ms-auto">
+                {# Проверка авторизации пользователя #}
+                {% if user.is_authenticated %}
+                    {# Меню для авторизованных пользователей #}
+                    <a class="nav-link" href="{% url 'applications' %}">Мои заявки</a>
+                    <a class="nav-link" href="{% url 'create_application' %}">Подать заявку</a>
+                    
+                    {# Ссылка в админку только для staff пользователей #}
+                    {% if user.is_staff %}
+                        <a class="nav-link" href="/admin/">Админка</a>
+                    {% endif %}
+                    
+                    {# Кнопка выхода с отображением имени пользователя #}
+                    <a class="nav-link" href="{% url 'logout' %}">Выйти ({{ user.username }})</a>
+                {% else %}
+                    {# Меню для неавторизованных пользователей #}
+                    <a class="nav-link" href="{% url 'login' %}">Войти</a>
+                    <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {# Основной контент страницы #}
+    <main class="container mt-4 flex-grow-1">
+        {#   Блок для основного контента страниц-наследников Сюда подставляется уникальный контент каждой страницы#}
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {# Футер сайта #}
+    <footer class="footer mt-auto">
+        <div class="footer-content">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <div class="footer-logo">Корочки.есть</div>
+                </div>
+                
+                <div class="col-md-5">
+                    <div class="footer-nav">
+                        <ul class="footer-links">
+                            <li><a href="{% url 'home' %}">Главная</a></li>
+                            <li><a href="{% url 'applications' %}">Мои заявки</a></li>
+                            <li><a href="{% url 'create_application' %}">Подать заявку</a></li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+    </footer>
+
+    {# Подключение Bootstrap JavaScript (включает Popper.js) #}
+    <script src={% static "bootstrap.min.js" %}></script>
+</body>
+</html>

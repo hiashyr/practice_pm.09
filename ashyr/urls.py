@@ -9,6 +9,10 @@ from main import views
 
 # Определение URL-шаблонов проекта
 urlpatterns = [
+    # URL для админ-страницы управления заявками (должен быть перед admin.site.urls)
+    path('admin/applications/', views.admin_applications, name='admin_applications'),
+    path('admin/applications/<int:application_id>/change_status/', views.change_application_status, name='change_application_status'),
+    
     # URL для административной панели Django
     path('admin/', admin.site.urls),
     

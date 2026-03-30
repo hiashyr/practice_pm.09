@@ -38,7 +38,7 @@
                     
                     {# Ссылка в админку только для staff пользователей #}
                     {% if user.is_staff %}
-                        <a class="nav-link" href="/admin/">Админка</a>
+                        <a class="nav-link" href="{% url 'admin_applications' %}">Админка</a>
                     {% endif %}
                     
                     {# Кнопка выхода с отображением имени пользователя #}

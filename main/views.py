@@ -1,7 +1,7 @@
 # Импорт модулей Django для работы с представлениями
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 # Импорт моделей приложения
@@ -115,6 +115,30 @@ def add_review(request, application_id):
         form = ReviewForm()
     
     return render(request, 'add_review.html', {'form': form, 'application': application})
+
+# Админ-страница для просмотра всех заявок (только для staff)
+@user_passes_test(lambda u: u.is_staff)
+def admin_applications(request):
+    # Получение всех заявок с информацией о пользователе
+    all_applications = Application.objects.select_related('user').order_by('-created_at')
+    return render(request, 'admin_applications.html', {'applications': all_applications})
+
+# Изменение статуса заявки (только для staff)
+@user_passes_test(lambda u: u.is_staff)
+def change_application_status(request, application_id):
+    if request.method == 'POST':
+        application = get_object_or_404(Application, id=application_id)
+        new_status = request.POST.get('status')
+        
+        # Проверка валидности статуса
+        if new_status in dict(Application.STATUS_CHOICES):
+            application.status = new_status
+            application.save()
+            messages.success(request, f'Статус заявки #{application.id} изменен на "{application.get_status_display}"')
+        else:
+            messages.error(request, 'Неверный статус')
+    
+    return redirect('admin_applications')
 
 # Выход из системы
 def custom_logout(request):

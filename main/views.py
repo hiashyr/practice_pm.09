@@ -18,24 +18,37 @@ def register(request):
     if request.method == 'POST':
         # Создание формы с данными из POST запроса
         # По умолчанию подтверждение пароля не требуется, формат телефона '8'
-        form = CustomUserRegistrationForm( ######################################################
+        form = CustomUserRegistrationForm(
             request.POST,
             require_password_confirmation=False,
-            phone_mask_format='8'
+            phone_mask_format='+7' # -------------------------------------------------------------------------------
         )
         if form.is_valid():
             # Сохранение пользователя и автоматический вход
             user = form.save()
             login(request, user)
+            
+            # Проверка на AJAX запрос
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                from django.http import JsonResponse
+                return JsonResponse({'success': True, 'redirect_url': '/applications/'})
+            
             messages.success(request, 'Регистрация прошла успешно!')
             return redirect('applications')
+        else:
+            # Ошибки валидации
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                from django.http import JsonResponse
+                errors = {field: [str(error) for error in errors_list] for field, errors_list in form.errors.items()}
+                return JsonResponse({'success': False, 'errors': errors}, status=400)
     else:
         # Создание пустой формы для GET запроса
-        # По умолчанию подтверждение паролfя не требуется, формат телефона '8'
-        form = CustomUserRegistrationForm( ######################################################
+        # По умолчанию подтверждение пароля не требуется, формат телефона '8'
+        form = CustomUserRegistrationForm(
             require_password_confirmation=False,
-            phone_mask_format='8'
+            phone_mask_format='+7' # -------------------------------------------------------------------------------
         )
+        
 
     return render(request, 'register.html', {'form': form})
 
@@ -51,10 +64,20 @@ def custom_login(request):
         if user is not None:
             # Успешный вход
             login(request, user)
+            
+            # Проверка на AJAX запрос
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                from django.http import JsonResponse
+                return JsonResponse({'success': True, 'redirect_url': request.META.get('HTTP_REFERER', '/applications/')})
+            
             messages.success(request, f'Добро пожаловать, {user.fio}!')
             return redirect('applications')
         else:
             # Ошибка аутентификации
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                from django.http import JsonResponse
+                return JsonResponse({'success': False, 'error': 'Неверный логин или пароль'}, status=400)
+            
             messages.error(request, 'Неверный логин или пароль')
     
     return render(request, 'login.html')

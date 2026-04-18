@@ -45,6 +45,13 @@
                     <a class="nav-link" href="{% url 'logout' %}">Выйти ({{ user.username }})</a>
                 {% else %}
                     {# Меню для неавторизованных пользователей #}
+                    {% comment %} ЗАКОМЕНТИТЬ ЕСЛИ НЕ НУЖНО МОДАЛЬНОЕ ОКНО ---------------------{% endcomment %}
+                    <button type="button" class="btn btn-outline-light nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+                      Автор. Модал
+                    </button>
+                    <button type="button" class="btn btn-outline-success nav-link ms-1" data-bs-toggle="modal" data-bs-target="#registerModal">
+                      Рег. Модал
+                    </button>
                     <a class="nav-link" href="{% url 'login' %}">Войти</a>
                     <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
                 {% endif %}
@@ -88,6 +95,267 @@
                 </div>
         </div>
     </footer>
+    {# Модальное окно авторизации #}
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Вход в аккаунт</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <div id="loginModalError" class="alert alert-danger d-none"></div>
+            
+            <form id="loginModalForm" method="post" action="{% url 'login' %}">
+              {% csrf_token %}
+              
+              <div class="mb-3">
+                <label for="modal_username" class="form-label">Логин</label>
+                <input type="text" class="form-control" id="modal_username" name="username" required>
+              </div>
+              
+              <div class="mb-4">
+                <label for="modal_password" class="form-label">Пароль</label>
+                <input type="password" class="form-control" id="modal_password" name="password" required>
+              </div>
+              
+              <button type="submit" id="loginModalBtn" class="btn btn-primary w-100">Войти</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <p class="mb-0 w-100 text-center">
+              Еще не зарегистрированы? <a href="{% url 'register' %}">Создать аккаунт</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      // Обработка отправки формы авторизации в модальном окне
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('loginModalForm');
+        const errorBlock = document.getElementById('loginModalError');
+        const submitBtn = document.getElementById('loginModalBtn');
+        
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          errorBlock.classList.add('d-none');
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Входим...';
+          
+          try {
+            const formData = new FormData(form);
+            
+            const response = await fetch(form.action, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+              window.location.reload();
+            } else {
+              errorBlock.textContent = result.error;
+              errorBlock.classList.remove('d-none');
+            }
+          } catch (error) {
+            errorBlock.textContent = 'Ошибка соединения, попробуйте позже';
+            errorBlock.classList.remove('d-none');
+          }
+          
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Войти';
+        });
+        
+        // Очистка ошибок при закрытии модального окна
+        document.getElementById('loginModal').addEventListener('hidden.bs.modal', function() {
+          errorBlock.classList.add('d-none');
+          form.reset();
+        });
+      });
+    </script>
+
+    {# Модальное окно регистрации #}
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalLabel">Создать аккаунт</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <form id="registerModalForm" method="post" action="{% url 'register' %}">
+              {% csrf_token %}
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="modal_reg_username" class="form-label">Логин</label>
+                    <input type="text" class="form-control" id="modal_reg_username" name="username" required>
+                    <div class="form-text">Только латинские буквы и цифры, не менее 6 символов</div>
+                    <div class="text-danger small error-field" data-field="username"></div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="modal_reg_fio" class="form-label">ФИО</label>
+                    <input type="text" class="form-control" id="modal_reg_fio" name="fio" required>
+                    <div class="form-text">Только кириллические символы и пробелы</div>
+                    <div class="text-danger small error-field" data-field="fio"></div>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label for="modal_reg_phone" class="form-label">Телефон</label>
+                    <input type="text" class="form-control" id="modal_reg_phone" name="phone" inputmode="numeric" placeholder="8(XXX)XXX-XX-XX" required>
+                    <div class="form-text">
+                    <div class="text-danger small error-field" data-field="phone"></div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="modal_reg_email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="modal_reg_email" name="email" required>
+                    <div class="form-text">Введите действующий email адрес</div>
+                    <div class="text-danger small error-field" data-field="email"></div>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label for="modal_reg_password1" class="form-label">Пароль</label>
+                    <input type="password" class="form-control" id="modal_reg_password1" name="password1" required>
+                    <div class="form-text">Минимум 8 символов</div>
+                    <div class="text-danger small error-field" data-field="password1"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <button type="submit" id="registerModalBtn" class="btn btn-primary w-100">Создать аккаунт</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <p class="mb-0 w-100 text-center">
+              Уже есть аккаунт? <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#loginModal">Войти</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Маска для телефона
+      function applyPhoneMask(inputElement, format) {
+        inputElement.addEventListener('keydown', function(e) {
+          const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Enter', 'Escape', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Insert'];
+          const isDigit = /^[0-9]$/.test(e.key);
+          if (!isDigit && !allowedKeys.includes(e.key) && e.key !== '+') {
+            e.preventDefault();
+          }
+        });
+
+        inputElement.addEventListener('input', function(e) {
+          const el = e.target;
+          let digits = el.value.replace(/\D/g, '');
+
+          if (format === '8') {
+            if (!digits.startsWith('8')) digits = '8' + digits;
+            const national = digits.substring(1);
+            const displayNational = national.substring(0, 10);
+
+            let formatted = '8';
+            if (displayNational.length > 0) formatted += '(' + displayNational.substring(0, Math.min(3, displayNational.length));
+            if (displayNational.length >= 3) formatted += ')' + displayNational.substring(3, Math.min(6, displayNational.length));
+            if (displayNational.length >= 6) formatted += '-' + displayNational.substring(6, Math.min(8, displayNational.length));
+            if (displayNational.length >= 8) formatted += '-' + displayNational.substring(8, Math.min(10, displayNational.length));
+
+            el.value = formatted;
+          } else if (format === '+7') {
+            // если ввели 8 в начале — считаем как 7
+            if (digits.startsWith('8')) digits = '7' + digits.substring(1);
+            // национальная часть (без ведущей 7)
+            let national = digits.startsWith('7') ? digits.substring(1) : digits;
+            const displayNational = national.substring(0, 10);
+
+            let formatted = '+7';
+            if (displayNational.length > 0) formatted += ' (' + displayNational.substring(0, Math.min(3, displayNational.length));
+            if (displayNational.length >= 3) formatted += ') ' + displayNational.substring(3, Math.min(6, displayNational.length));
+            if (displayNational.length >= 6) formatted += '-' + displayNational.substring(6, Math.min(8, displayNational.length));
+            if (displayNational.length >= 8) formatted += '-' + displayNational.substring(8, Math.min(10, displayNational.length));
+
+            el.value = formatted;
+          }
+        });
+      }
+
+      // Инициализация формы регистрации
+      document.addEventListener('DOMContentLoaded', function() {
+        const registerForm = document.getElementById('registerModalForm');
+        const registerBtn = document.getElementById('registerModalBtn');
+        const errorFields = registerForm.querySelectorAll('.error-field');
+        
+      // ✅ 👇 МЕНЯЙ ТОЛЬКО ЭТО ЗНАЧЕНИЕ: '8' ИЛИ '+7'
+      const PHONE_MASK_FORMAT = '+7';
+      
+      const phoneInput = document.getElementById('modal_reg_phone');
+      applyPhoneMask(phoneInput, PHONE_MASK_FORMAT);
+      
+      // Автоматически меняем placeholder и подсказку
+      if (PHONE_MASK_FORMAT === '8') {
+        phoneInput.placeholder = '8(XXX)XXX-XX-XX';
+        phoneInput.nextElementSibling.textContent = 'Формат: 8(XXX)XXX-XX-XX';
+      } else {
+        phoneInput.placeholder = '+7 (XXX) XXX-XX-XX';
+        phoneInput.nextElementSibling.textContent = 'Формат: +7 (XXX) XXX-XX-XX';
+      }
+        
+        registerForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          errorFields.forEach(el => el.textContent = '');
+          registerBtn.disabled = true;
+          registerBtn.textContent = 'Регистрируем...';
+          
+          try {
+            const formData = new FormData(registerForm);
+            
+            const response = await fetch(registerForm.action, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+              window.location.href = result.redirect_url;
+            } else {
+              Object.entries(result.errors).forEach(([field, errors]) => {
+                const errorEl = registerForm.querySelector(`.error-field[data-field="${field}"]`);
+                if (errorEl) {
+                  errorEl.textContent = errors[0];
+                }
+              });
+            }
+          } catch (error) {
+            alert('Ошибка соединения, попробуйте позже');
+          }
+          
+          registerBtn.disabled = false;
+          registerBtn.textContent = 'Создать аккаунт';
+        });
+        
+        document.getElementById('registerModal').addEventListener('hidden.bs.modal', function() {
+          errorFields.forEach(el => el.textContent = '');
+          registerForm.reset();
+        });
+      });
+    </script>
 
     {# Подключение Bootstrap JavaScript (включает Popper.js) #}
     <script src={% static "bootstrap.min.js" %}></script>

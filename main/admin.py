@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 # Импорт модели Theme из admin-interface
-from admin_interface.models import Theme
+# from admin_interface.models import Theme
 # Импорт моделей приложения
 from .models import CustomUser, Application, Review
 
